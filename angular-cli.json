@@ -15,7 +15,7 @@
       "prefix": "rb",
       "mobile": false,
       "styles": [
-        "styles.css"
+        "styles.scss"
       ],
       "scripts": [],
       "environments": {

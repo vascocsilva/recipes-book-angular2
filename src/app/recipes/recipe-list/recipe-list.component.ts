@@ -1,25 +1,29 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Recipe } from '../recipe';
+import { LogService } from '../../service/log.service';
+import { RecipeService } from '../recipe.service';
 
 @Component({
   selector: 'rb-recipe-list',
-  templateUrl: './recipe-list.component.html'
+  templateUrl: './recipe-list.component.html',
+  providers: [
+    LogService
+  ]
 })
 export class RecipeListComponent implements OnInit {
-  recipes: Recipe[] = [
-    new Recipe('Bacalhau à Brás', 'Very very good', 'https://www.pingodoce.pt/wp-content/uploads/2016/03/617x370_bacalhau.jpg', []),
-    new Recipe('Francesinha', 'Awesome', 'https://www.esnporto.org/sites/default/files/events/images/francesinha3.jpg', [])
-  ];
-  // recipe = new Recipe('Dummy', 'Dummy', 'http://www.pollosdumy.com/ribbon.png');
+  recipes: Recipe[] = [];
+
   @Output() recipeSelected = new EventEmitter<Recipe>();
 
-  constructor() { }
+  constructor(private logService: LogService, private recipeService: RecipeService) { }
 
   ngOnInit() {
+    this.recipes = this.recipeService.getRecipes();
   }
 
   onSelected(recipe: Recipe) {
     this.recipeSelected.emit(recipe);
+    this.logService.writeLog(recipe.name);
   }
 
 }
